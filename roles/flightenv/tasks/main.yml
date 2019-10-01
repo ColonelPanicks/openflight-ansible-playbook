@@ -17,7 +17,6 @@
   copy:
     src: /tmp/flight-starter/dist/
     dest: /
-    directory_mode: yes
     mode: preserve
 
 - name: Download flight-env
