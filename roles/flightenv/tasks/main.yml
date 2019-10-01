@@ -1,0 +1,30 @@
+- name: Install git
+  yum: name=git state=present
+
+- name: Setup openflight repo
+  get_url: url=https://openflighthpc.s3-eu-west-1.amazonaws.com/repos/openflight/openflight.repo dest=/etc/yum.repos.d/openflight.repo
+
+- name: Install flight-runway
+  yum: name=flight-runway state=present update_cache=yes
+
+- name: Download flight-starter
+  git:
+    repo: 'https://github.com/openflighthpc/flight-starter'
+    dest: '/tmp/flight-starter'
+    version: 'master'
+
+- name: Install flight-starter
+  copy:
+    src: /tmp/flight-starter/dist/
+    dest: /
+    directory_mode: yes
+    mode: preserve
+
+- name: Download flight-env
+  git:
+    repo: 'https://github.com/alces-flight/flight-env'
+    dest: '/opt/flight/opt/flight-env'
+    version: 'master'
+
+- name: Install flight-env
+  command: /opt/flight/bin/flintegrate /opt/flight/opt/flight-env
