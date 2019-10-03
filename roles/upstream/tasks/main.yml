@@ -1,0 +1,9 @@
+- name: Install EPEL Repo
+  yum: name=epel-release state=present
+
+- name: Add OpenFlight SLURM Repo
+  yum_repository:
+    name: openflight-slurm
+    description: OpenFlight SLURM Repo
+    state: present
+    baseurl: https://openflighthpc-compute.s3-eu-west-2.amazonaws.com/slurm/

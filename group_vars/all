@@ -1,0 +1,6 @@
+# SLURM Settings
+cluster_name: mycluster
+slurm_controller: gateway1
+slurm_nodelist: node[01-02]
+munge_key: ReplaceThisWithMungeKeyRandomisedStringOrSomethingElseReallySecure
+

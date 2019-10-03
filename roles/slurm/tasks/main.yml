@@ -1,0 +1,73 @@
+- name: Install munge
+  yum:
+    name:
+      - munge
+      - munge-libs
+      - perl-Switch
+      - numactl
+    state: present
+
+- name: Install SLURM 
+  yum:
+    name:
+      - slurm
+      - slurm-devel
+      - slurm-perlapi
+      - slurm-torque
+      - slurm-slurmd
+      - slurm-example-configs
+      - slurm-libpmi
+    state: present
+    disable_gpg_check: yes
+
+- name: Install SLURM controller packages
+  yum:
+    name: 
+      - mariadb
+      - mariadb-test
+      - mariadb-libs
+      - mariadb-embedded
+      - mariadb-bench
+      - slurm-slurmctld
+    state: present
+    disable_gpg_check: yes
+  when: slurm_role == 'controller'
+
+- name: Turn on MariaDB
+  service: name=mariadb state=started enabled=yes
+  when: slurm_role == 'controller'
+
+- name: Create spool directory
+  file:
+    path: /var/spool/slurm.state
+    state: directory
+    owner: nobody
+    group: nobody
+  when: slurm_role == 'controller'
+
+- name: Add munge key
+  copy:
+    content: "{{ munge_key }}"
+    dest: /etc/munge/munge.key
+    owner: munge
+    mode: 0400
+
+- name: Turn on munge
+  service: name=munge state=started enabled=yes
+
+- name: Create SLURM log dirs
+  file:
+    path: /var/log/slurm
+    state: directory
+    owner: nobody
+
+- name: Install slurm.conf
+  template: src=slurm.conf dest=/etc/slurm/slurm.conf
+
+- name: Turn on SLURM exec daemon
+  service: name=slurmd state=started enabled=yes
+  when: slurm_role == 'exec'
+
+- name: Turn on SLURM controller daemon
+  service: name=slurmctld state=started enabled=yes
+  when: slurm_role == 'controller'
