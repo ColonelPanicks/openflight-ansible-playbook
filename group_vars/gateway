@@ -1,1 +1,5 @@
+# SLURM 
 slurm_role: controller
+
+# NFS
+nfs_role: server

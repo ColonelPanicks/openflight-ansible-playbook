@@ -1,0 +1,47 @@
+- name: Install NFS utils
+  yum: name=nfs-utils state=present
+
+- name: Create export directories
+  when: nfs_role == "server"
+  file:
+    path: "{{ item.key }}"
+    state: directory
+    mode: 775
+  with_dict: "{{ nfs_shares }}"
+
+- name: Increase NFS thread count
+  when: nfs_role == "server"
+  replace:
+    path: /etc/sysconfig/nfs
+    regexp: '^#\RPCNFSDCOUNT.*$'
+    replace: 'RPCNFSDCOUNT=32'
+
+- name: Create export file
+  when: nfs_role == "server"
+  template: src=exports dest=/etc/exports
+
+- name: Create fstab file
+  lineinfile:
+    path: /etc/fstab
+    line: "{{ item.value.server }}:{{ item.key }}    {{ item.value.mountpoint }}    nfs    {{ item.value.mount_opts }}    0 0"
+    state: present
+  with_dict: "{{ nfs_shares }}"
+
+- name: Create mount directories
+  file:
+    path: "{{ item.value.mountpoint }}"
+    state: directory
+    mode: 775
+  with_dict: "{{ nfs_shares }}"
+
+- name: Start NFS service
+  service: name=nfs state=started enabled=yes
+
+- name: Export mounts
+  when: nfs_role == 'server'
+  command: exportfs -va
+
+- name: Mount NFS exports
+  command: mount -a
+  args:
+    warn: no

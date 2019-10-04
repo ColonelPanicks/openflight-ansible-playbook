@@ -6,3 +6,4 @@
     - upstream
     - flightenv
     - slurm
+    - nfs

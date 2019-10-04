@@ -2,5 +2,34 @@
 cluster_name: mycluster
 slurm_controller: gateway1
 slurm_nodelist: node[01-02]
+slurm_role: exec # Default to SLURM compute node, override in subgroups
 munge_key: ReplaceThisWithMungeKeyRandomisedStringOrSomethingElseReallySecure
 
+# NFS Settings
+nfs_role: client # Default to NFS client, override in subgroups
+nfs_shares:
+  /export/apps:
+    server: gateway1
+    mountpoint: /opt/apps
+    export_opts: 10.10.0.0/255.255.0.0(rw,no_root_squash,sync)
+    mount_opts: intr,rsize=32768,wsize=32768,vers=3,_netdev
+  /export/data:
+    server: gateway1
+    mountpoint: /data
+    export_opts: 10.10.0.0/255.255.0.0(rw,no_root_squash,sync)
+    mount_opts: intr,rsize=32768,wsize=32768,vers=3,_netdev
+  /export/service:
+    server: gateway1
+    mountpoint: /opt/service
+    export_opts: 10.10.0.0/255.255.0.0(rw,no_root_squash,sync)
+    mount_opts: intr,rsize=32768,wsize=32768,vers=3,_netdev
+  /export/site:
+    server: gateway1
+    mountpoint: /opt/site
+    export_opts: 10.10.0.0/255.255.0.0(rw,no_root_squash,sync)
+    mount_opts: intr,rsize=32768,wsize=32768,vers=3,_netdev
+  /export/users:
+    server: gateway1
+    mountpoint: /users
+    export_opts: 10.10.0.0/255.255.0.0(rw,no_root_squash,sync)
+    mount_opts: intr,rsize=32768,wsize=32768,vers=3,_netdev
