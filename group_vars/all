@@ -1,5 +1,7 @@
+# Global
+cluster_name: mycluster # Used by SLURM and Flight Env
+
 # SLURM Settings
-cluster_name: mycluster
 slurm_controller: gateway1
 slurm_nodelist: node[01-02]
 slurm_role: exec # Default to SLURM compute node, override in subgroups
