@@ -7,3 +7,10 @@
     description: OpenFlight SLURM Repo
     state: present
     baseurl: https://openflighthpc-compute.s3-eu-west-2.amazonaws.com/slurm/
+
+- name: Add OpenFlight Release Repo
+  yum: name=https://openflighthpc.s3-eu-west-1.amazonaws.com/repos/openflight/x86_64/openflighthpc-release-1-1.noarch.rpm state=present
+
+- name: Add Alces Flight Release Repo
+  yum: name=https://alces-flight.s3-eu-west-1.amazonaws.com/repos/alces-flight/x86_64/alces-flight-release-1-1.noarch.rpm state=present
+
