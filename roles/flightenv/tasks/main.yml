@@ -4,6 +4,7 @@
       - flight-runway
       - flight-starter
       - flight-env
+      - flight-desktop
       - vte
       - vte-profile
     state: present
