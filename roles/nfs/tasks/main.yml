@@ -26,6 +26,7 @@
     line: "{{ item.value.server }}:{{ item.key }}    {{ item.value.mountpoint }}    nfs    {{ item.value.mount_opts }}    0 0"
     state: present
   with_dict: "{{ nfs_shares }}"
+  when: item.key == item.value.mountpoint && nfs_role == "server"
 
 - name: Create mount directories
   file:
