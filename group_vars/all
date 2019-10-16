@@ -30,8 +30,8 @@ nfs_shares:
     mountpoint: /opt/site
     export_opts: 10.10.0.0/255.255.0.0(rw,no_root_squash,sync)
     mount_opts: intr,rsize=32768,wsize=32768,vers=3,_netdev
-  /export/users:
+  /home:
     server: gateway1
-    mountpoint: /users
+    mountpoint: /home
     export_opts: 10.10.0.0/255.255.0.0(rw,no_root_squash,sync)
     mount_opts: intr,rsize=32768,wsize=32768,vers=3,_netdev
