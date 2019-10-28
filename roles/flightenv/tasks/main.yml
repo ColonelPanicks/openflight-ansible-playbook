@@ -13,3 +13,5 @@
 - name: Set cluster name
   command: "/opt/flight/bin/flight config set cluster.name {{ cluster_name }}"
 
+- name: Create genders file
+  template: src=genders dest=/opt/flight/etc/genders
