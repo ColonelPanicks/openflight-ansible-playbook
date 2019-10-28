@@ -7,6 +7,8 @@
       - flight-desktop
       - vte
       - vte-profile
+      - pdsh
+      - pdsh-mod-genders
     state: present
     disable_gpg_check: yes
 
