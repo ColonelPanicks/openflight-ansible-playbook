@@ -1,3 +1,9 @@
+# FlightEnv Settings
+
+## If true will additionally install dependencies for desktop environments.
+## Only recommended for gateway nodes!
+flightenv-prepare: false
+
 # SLURM 
 slurm_role: controller
 
