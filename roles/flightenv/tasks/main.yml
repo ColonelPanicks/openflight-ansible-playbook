@@ -17,3 +17,13 @@
 
 - name: Create genders file
   template: src=genders dest=/opt/flight/etc/genders
+
+- name: Configure global software environment location
+  template: src=config.yml dest=/opt/flight/opt/flight-env/etc/config.yml
+
+- name: Configure Singularity environment to work for users
+  command: "echo 100 > /proc/sys/user/max_user_namespaces"
+
+- name: Running additional preparation steps
+  include_role: name=flighenv-prepare
+  when: flightenv-prepare

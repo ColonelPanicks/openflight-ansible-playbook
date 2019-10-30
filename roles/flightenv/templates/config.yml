@@ -1,0 +1,4 @@
+# Path to global/system-wide depots
+global_depot_path: /opt/apps/flight/env
+# Path to global/system-wide build cache
+global_build_cache_path: /opt/apps/flight/env/build
