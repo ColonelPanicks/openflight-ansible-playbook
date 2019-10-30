@@ -10,6 +10,15 @@
     - flightenv_prepare
     - "'gateway' in group_names"
 
+- name: Add gridware binary support
+  file:
+    path: "/opt/apps/flight/env/u"
+    state: directory
+    mode: 1777
+  when:
+    - flightenv_prepare
+    - "'gateway' in group_names"
+
 - name: Prepare global software environments
   command: "/opt/flight/bin/flight env create --global {{ item }}@global"
   with_items: "{{ flightenv_prepare_software }}"
