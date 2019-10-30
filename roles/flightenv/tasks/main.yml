@@ -24,8 +24,3 @@
 - name: Configure Singularity environment to work for users
   command: "echo 100 > /proc/sys/user/max_user_namespaces"
 
-- name: Running additional preparation steps
-  include_role: name=flighenv-prepare
-  when:
-    - flightenv-prepare
-    - "'gateway' in group_names"
