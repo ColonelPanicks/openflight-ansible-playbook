@@ -28,4 +28,4 @@
   include_role: name=flighenv-prepare
   when:
     - flightenv-prepare
-    - 'gateway' in group_names
+    - "'gateway' in group_names"
