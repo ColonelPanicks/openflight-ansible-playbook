@@ -26,4 +26,6 @@
 
 - name: Running additional preparation steps
   include_role: name=flighenv-prepare
-  when: flightenv-prepare
+  when:
+    - flightenv-prepare
+    - 'gateway' in group_names
