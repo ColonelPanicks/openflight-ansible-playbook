@@ -26,3 +26,6 @@
     src: https://openflighthpc-compute.s3.eu-west-2.amazonaws.com/bootcamp/openflight-env-prereqs.tar.gz
     dest: /
     remote_src: yes
+  when:
+    - flightenv_prepare
+    - "'gateway' in group_names"
