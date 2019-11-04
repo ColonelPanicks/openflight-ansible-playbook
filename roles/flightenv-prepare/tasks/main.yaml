@@ -1,5 +1,7 @@
 - name: Prepare gnome desktop
   command: "/opt/flight/bin/flight desktop prepare gnome"
+  async: 600
+  poll: 15
   when:
     - flightenv_prepare
     - "'gateway' in group_names"
@@ -19,34 +21,8 @@
     - flightenv_prepare
     - "'gateway' in group_names"
 
-- name: Prepare global software environments
-  command: "/opt/flight/bin/flight env create --global {{ item }}@global"
-  with_items: "{{ flightenv_prepare_software }}"
-  when:
-    - flightenv_prepare
-    - "'gateway' in group_names"
-
-- name: Tidy global preparations
-  command: "/opt/flight/bin/flight env purge --yes {{ item }}@global"
-  with_items: "{{ flightenv_prepare_software }}"
-  when:
-    - flightenv_prepare
-    - "'gateway' in group_names"
-
-- name: Prepare local software environments
-  command: "/opt/flight/bin/flight env create {{ item }}"
-  become: true
-  become_user: "{{ flightenv_prepare_user }}"
-  with_items: "{{ flightenv_prepare_software }}"
-  when:
-    - flightenv_prepare
-    - "'gateway' in group_names"
-
-- name: Tidy local preparations
-  command: "/opt/flight/bin/flight env purge --yes {{ item }}"
-  become: true
-  become_user: "{{ flightenv_prepare_user }}"
-  with_items: "{{ flightenv_prepare_software }}"
-  when:
-    - flightenv_prepare
-    - "'gateway' in group_names"
+- name: Prewarm software environments
+  unarchive:
+    src: https://openflighthpc-compute.s3.eu-west-2.amazonaws.com/bootcamp/openflight-env-prereqs.tar.gz
+    dest: /
+    remote_src: yes
