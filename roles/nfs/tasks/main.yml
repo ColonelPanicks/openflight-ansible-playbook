@@ -31,7 +31,7 @@
 - name: Create fstab file (server - bindmounts)
   lineinfile:
     path: /etc/fstab
-    line: "{% item.key != item.value.mountpoint %}{{ item.key }}    {{ item.value.mountpoint }}    none    defaults,bind    0 0{% endif %}"
+    line: "{% if item.key != item.value.mountpoint %}{{ item.key }}    {{ item.value.mountpoint }}    none    defaults,bind    0 0{% endif %}"
     state: present
   with_dict: "{{ nfs_shares }}"
   when: nfs_role == 'server'
