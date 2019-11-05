@@ -16,7 +16,7 @@
   file:
     path: "/opt/apps/flight/env/u"
     state: directory
-    mode: 1777
+    mode: 1023
   when:
     - flightenv_bootstrap
     - "'gateway' in group_names"
