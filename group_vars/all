@@ -7,13 +7,13 @@ compute_nodes: node[01-08]
 
 ## If true will additionally install dependencies for desktop environments.
 ## Only recommended for gateway nodes!
-flightenv_prepare: false 
+flightenv_bootstrap: false 
 
 ## The user to prepare local environments for
-flightenv_prepare_user: flight
+flightenv_bootstrap_user: flight
 
 ## The software environments to install prereqs for
-flightenv_prepare_software: [easybuild, gridware, modules, singularity, spack] # conda left out for demo purposes
+flightenv_bootstrap_software: [easybuild, gridware, modules, singularity, spack] # conda left out for demo purposes
 
 # SLURM Settings
 slurm_role: exec # Default to SLURM compute node, override in subgroups
