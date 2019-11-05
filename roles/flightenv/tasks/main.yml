@@ -7,9 +7,20 @@
       - flight-desktop
       - vte
       - vte-profile
+      - pdsh
+      - pdsh-mod-genders
     state: present
     disable_gpg_check: yes
 
 - name: Set cluster name
   command: "/opt/flight/bin/flight config set cluster.name {{ cluster_name }}"
+
+- name: Create genders file
+  template: src=genders dest=/opt/flight/etc/genders
+
+- name: Configure global software environment location
+  template: src=config.yml dest=/opt/flight/opt/flight-env/etc/config.yml
+
+- name: Configure Singularity environment to work for users
+  command: "echo 100 > /proc/sys/user/max_user_namespaces"
 

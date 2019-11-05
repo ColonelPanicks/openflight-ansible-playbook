@@ -20,12 +20,21 @@
   when: nfs_role == "server"
   template: src=exports dest=/etc/exports
 
-- name: Create fstab file
+- name: Create fstab file (client)
   lineinfile:
     path: /etc/fstab
-    line: "{% if nfs_role == 'client' or item.key != item.value.mountpoint %}{{ item.value.server }}:{{ item.key }}    {{ item.value.mountpoint }}    nfs    {{ item.value.mount_opts }}    0 0{% endif %}"
+    line: "{{ item.value.server }}:{{ item.key }}    {{ item.value.mountpoint }}    nfs    {{ item.value.mount_opts }}    0 0"
     state: present
   with_dict: "{{ nfs_shares }}"
+  when: nfs_role == 'client'
+
+- name: Create fstab file (server - bindmounts)
+  lineinfile:
+    path: /etc/fstab
+    line: "{% if item.key != item.value.mountpoint %}{{ item.key }}    {{ item.value.mountpoint }}    none    defaults,bind    0 0{% endif %}"
+    state: present
+  with_dict: "{{ nfs_shares }}"
+  when: nfs_role == 'server'
 
 - name: Create mount directories
   file:

@@ -1,9 +1,21 @@
 # Global
 cluster_name: mycluster # Used by SLURM and Flight Env
+gateway_node: gateway1 #Used by SLURM and Flight Env (genders)
+compute_nodes: node[01-08]
+
+# FlightEnv Settings
+
+## If true will additionally install dependencies for desktop environments.
+## Only recommended for gateway nodes!
+flightenv_bootstrap: false 
+
+## The user to prepare local environments for
+flightenv_bootstrap_user: flight
+
+## The software environments to install prereqs for
+flightenv_bootstrap_software: [easybuild, gridware, modules, singularity, spack] # conda left out for demo purposes
 
 # SLURM Settings
-slurm_controller: gateway1
-slurm_nodelist: node[01-08]
 slurm_role: exec # Default to SLURM compute node, override in subgroups
 munge_key: ReplaceThisWithMungeKeyRandomisedStringOrSomethingElseReallySecure
 
