@@ -22,7 +22,7 @@
   template: src=config.yml dest=/opt/flight/opt/flight-env/etc/config.yml
 
 - name: Configure Singularity environment to work for users
-  command: "echo 100 > /proc/sys/user/max_user_namespaces"
+  command: 
   sysctl:
     name: user.max_user_namespaces
     value: '100'
