@@ -23,4 +23,10 @@
 
 - name: Configure Singularity environment to work for users
   command: "echo 100 > /proc/sys/user/max_user_namespaces"
+  sysctl:
+    name: user.max_user_namespaces
+    value: '100'
+    sysctl_set: yes
+    state: present
+    reload: yes
 
