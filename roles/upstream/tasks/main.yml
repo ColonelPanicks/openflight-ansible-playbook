@@ -1,6 +1,7 @@
 - name: Waiting for nodes to be reachable
   wait_for_connection:
     sleep: 10
+    timeout: 600
 
 - name: Install EPEL Repo
   yum: name=epel-release state=present
