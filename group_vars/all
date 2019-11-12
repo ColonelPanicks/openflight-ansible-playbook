@@ -9,12 +9,6 @@ compute_nodes: node[01-08]
 ## Only recommended for gateway nodes!
 flightenv_bootstrap: false 
 
-## The user to prepare local environments for
-flightenv_bootstrap_user: flight
-
-## The software environments to install prereqs for
-flightenv_bootstrap_software: [easybuild, gridware, modules, singularity, spack] # conda left out for demo purposes
-
 # SLURM Settings
 slurm_role: exec # Default to SLURM compute node, override in subgroups
 munge_key: ReplaceThisWithMungeKeyRandomisedStringOrSomethingElseReallySecure
