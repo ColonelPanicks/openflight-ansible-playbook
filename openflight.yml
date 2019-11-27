@@ -2,6 +2,7 @@
 - name: Configure HPC Environment for OpenFlightHPC Compute
   hosts: all
   remote_user: root
+  gather_facts: False
   roles:
     - upstream
     - slurm
