@@ -33,3 +33,11 @@
 - name: Add OpenFlight Release Repo
   yum: name=https://openflighthpc.s3-eu-west-1.amazonaws.com/repos/openflight/x86_64/openflighthpc-release-1-1.noarch.rpm state=present
 
+- name: Enabling OpenFlight Development Repo
+  ini_file:
+    dest: /etc/yum.repos.d/openflight-dev.repo
+    section: openflight-dev
+    option: enabled
+    value: 1
+  when: flightenv_dev
+
