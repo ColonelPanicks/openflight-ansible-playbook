@@ -10,13 +10,13 @@
 - name: Install SLURM 
   yum:
     name:
-      - slurm
-      - slurm-devel
-      - slurm-perlapi
-      - slurm-torque
-      - slurm-slurmd
-      - slurm-example-configs
-      - slurm-libpmi
+      - flight-slurm
+      - flight-slurm-devel
+      - flight-slurm-perlapi
+      - flight-slurm-torque
+      - flight-slurm-slurmd
+      - flight-slurm-example-configs
+      - flight-slurm-libpmi
     state: present
     disable_gpg_check: yes
 
@@ -28,7 +28,7 @@
       - mariadb-libs
       - mariadb-embedded
       - mariadb-bench
-      - slurm-slurmctld
+      - flight-slurm-slurmctld
     state: present
     disable_gpg_check: yes
   when: slurm_role == 'controller'
@@ -62,7 +62,7 @@
     owner: nobody
 
 - name: Install slurm.conf
-  template: src=slurm.conf dest=/etc/slurm/slurm.conf
+  template: src=slurm.conf dest=/opt/flight/opt/slurm/etc/slurm.conf
 
 - name: Turn on SLURM exec daemon
   service: name=slurmd state=started enabled=yes
