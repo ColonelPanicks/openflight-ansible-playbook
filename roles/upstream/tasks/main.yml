@@ -8,11 +8,11 @@
 
 - name: Get rid of Network Manager
   service: name=NetworkManager state=stopped enabled=no
-  when: "'NetworkManager' in services"
+  when: "'NetworkManager.service' in services"
 
 - name: Disable firewall
   service: name=firewalld state=stopped enabled=no
-  when: "'firewalld' in services"
+  when: "'firewalld.service' in services"
 
 - name: Set hostname
   command: "hostnamectl set-hostname {{ inventory_hostname_short }}.pri.{{ cluster_name }}.cluster.local"
