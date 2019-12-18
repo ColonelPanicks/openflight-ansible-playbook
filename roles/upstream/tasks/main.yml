@@ -29,7 +29,7 @@
   yum: name=epel-release state=present
 
 - name: Add OpenFlight Release Repo
-  yum: name=https://repos.openflighthpc.org/openflight/centos/7/x86_64/openflighthpc-release-2-1.noarch.rpm state=present
+  yum: name=https://repo.openflighthpc.org/openflight/centos/7/x86_64/openflighthpc-release-2-1.noarch.rpm state=present
 
 - name: Enabling OpenFlight Development Repo
   ini_file:
