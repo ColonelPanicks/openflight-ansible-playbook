@@ -39,7 +39,7 @@
 
 - name: Create spool directory
   file:
-    path: /var/spool/slurm.state
+    path: /opt/flight/opt/slurm/var/spool/slurm.state
     state: directory
     owner: nobody
     group: nobody
@@ -57,7 +57,7 @@
 
 - name: Create SLURM log dirs
   file:
-    path: /var/log/slurm
+    path: /opt/flight/opt/slurm/var/log/slurm
     state: directory
     owner: nobody
 
@@ -65,9 +65,9 @@
   template: src=slurm.conf dest=/opt/flight/opt/slurm/etc/slurm.conf
 
 - name: Turn on SLURM exec daemon
-  service: name=slurmd state=started enabled=yes
+  service: name=flight-slurmd state=started enabled=yes
   when: slurm_role == 'exec'
 
 - name: Turn on SLURM controller daemon
-  service: name=slurmctld state=started enabled=yes
+  service: name=flight-slurmctld state=started enabled=yes
   when: slurm_role == 'controller'
