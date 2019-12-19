@@ -37,13 +37,21 @@
   service: name=mariadb state=started enabled=yes
   when: slurm_role == 'controller'
 
-- name: Create spool directory
+- name: Create spool directory [ctld]
   file:
     path: /opt/flight/opt/slurm/var/spool/slurm.state
     state: directory
     owner: nobody
     group: nobody
   when: slurm_role == 'controller'
+
+- name: Create spool directory [exec]
+  file:
+    path: /opt/flight/opt/slurm/var/spool
+    state: directory
+    owner: nobody
+    group: nobody
+  when: slurm_role == 'exec'
 
 - name: Add munge key
   copy:
