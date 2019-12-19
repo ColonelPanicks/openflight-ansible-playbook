@@ -3,16 +3,16 @@
     sleep: 10
     timeout: 600
 
-- name: gather installed services
+- name: Gather Installed Services
   service_facts:
 
 - name: Get rid of Network Manager
   service: name=NetworkManager state=stopped enabled=no
-  when: "'NetworkManager' in services"
+  when: "'NetworkManager.service' in services"
 
 - name: Disable firewall
   service: name=firewalld state=stopped enabled=no
-  when: "'firewalld' in services"
+  when: "'firewalld.service' in services"
 
 - name: Set hostname
   command: "hostnamectl set-hostname {{ inventory_hostname_short }}.pri.{{ cluster_name }}.cluster.local"
@@ -28,15 +28,8 @@
 - name: Install EPEL Repo
   yum: name=epel-release state=present
 
-- name: Add OpenFlight SLURM Repo
-  yum_repository:
-    name: openflight-slurm
-    description: OpenFlight SLURM Repo
-    state: present
-    baseurl: https://openflighthpc-compute.s3-eu-west-2.amazonaws.com/slurm/
-
 - name: Add OpenFlight Release Repo
-  yum: name=https://openflighthpc.s3-eu-west-1.amazonaws.com/repos/openflight/x86_64/openflighthpc-release-1-1.noarch.rpm state=present
+  yum: name=https://repo.openflighthpc.org/openflight/centos/7/x86_64/openflighthpc-release-2-1.noarch.rpm state=present
 
 - name: Enabling OpenFlight Development Repo
   ini_file:

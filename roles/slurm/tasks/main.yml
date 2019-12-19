@@ -10,13 +10,13 @@
 - name: Install SLURM 
   yum:
     name:
-      - slurm
-      - slurm-devel
-      - slurm-perlapi
-      - slurm-torque
-      - slurm-slurmd
-      - slurm-example-configs
-      - slurm-libpmi
+      - flight-slurm
+      - flight-slurm-devel
+      - flight-slurm-perlapi
+      - flight-slurm-torque
+      - flight-slurm-slurmd
+      - flight-slurm-example-configs
+      - flight-slurm-libpmi
     state: present
     disable_gpg_check: yes
 
@@ -28,7 +28,7 @@
       - mariadb-libs
       - mariadb-embedded
       - mariadb-bench
-      - slurm-slurmctld
+      - flight-slurm-slurmctld
     state: present
     disable_gpg_check: yes
   when: slurm_role == 'controller'
@@ -37,13 +37,21 @@
   service: name=mariadb state=started enabled=yes
   when: slurm_role == 'controller'
 
-- name: Create spool directory
+- name: Create spool directory [ctld]
   file:
-    path: /var/spool/slurm.state
+    path: /opt/flight/opt/slurm/var/spool/slurm.state
     state: directory
     owner: nobody
     group: nobody
   when: slurm_role == 'controller'
+
+- name: Create spool directory [exec]
+  file:
+    path: /opt/flight/opt/slurm/var/spool
+    state: directory
+    owner: nobody
+    group: nobody
+  when: slurm_role == 'exec'
 
 - name: Add munge key
   copy:
@@ -57,17 +65,23 @@
 
 - name: Create SLURM log dirs
   file:
-    path: /var/log/slurm
+    path: /opt/flight/opt/slurm/var/log/slurm
+    state: directory
+    owner: nobody
+
+- name: Create SLURM run directory
+  file:
+    path: /opt/flight/opt/slurm/var/run
     state: directory
     owner: nobody
 
 - name: Install slurm.conf
-  template: src=slurm.conf dest=/etc/slurm/slurm.conf
+  template: src=slurm.conf dest=/opt/flight/opt/slurm/etc/slurm.conf
 
 - name: Turn on SLURM exec daemon
-  service: name=slurmd state=started enabled=yes
+  service: name=flight-slurmd state=started enabled=yes
   when: slurm_role == 'exec'
 
 - name: Turn on SLURM controller daemon
-  service: name=slurmctld state=started enabled=yes
+  service: name=flight-slurmctld state=started enabled=yes
   when: slurm_role == 'controller'
