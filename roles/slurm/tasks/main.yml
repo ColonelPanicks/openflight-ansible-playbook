@@ -61,6 +61,12 @@
     state: directory
     owner: nobody
 
+- name: Create SLURM run directory
+  file:
+    path: /opt/flight/opt/slurm/var/run
+    state: directory
+    owner: nobody
+
 - name: Install slurm.conf
   template: src=slurm.conf dest=/opt/flight/opt/slurm/etc/slurm.conf
 
