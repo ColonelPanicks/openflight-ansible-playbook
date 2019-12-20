@@ -23,7 +23,7 @@
 
 - name: Prewarm software environments
   unarchive:
-    src: https://openflighthpc-compute.s3.eu-west-2.amazonaws.com/bootcamp/openflight-env-prereqs.tar.gz
+    src: "https://repo.openflighthpc.org/bootcamp/openflight-env-prereqs-{{ ansible_architecture }}.tar.gz"
     dest: /
     remote_src: yes
   when:
