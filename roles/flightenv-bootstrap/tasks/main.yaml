@@ -20,6 +20,7 @@
   when:
     - flightenv_bootstrap
     - "'gateway' in group_names"
+    - ansible_architecture == 'x86_64'
 
 - name: Prewarm software environments
   unarchive:
