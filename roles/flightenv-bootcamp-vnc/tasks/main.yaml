@@ -1,0 +1,11 @@
+- name: Launch xterm desktop
+  command: "/opt/flight/bin/flight desktop start xterm"
+  when:
+    - flightenv_bootcamp_vnc
+    - "'gateway' in group_names"
+
+- name: Launch gnome desktop
+  command: "/opt/flight/bin/flight desktop start gnome"
+  when:
+    - flightenv_bootcamp_vnc
+    - "'gateway' in group_names"

@@ -13,6 +13,11 @@ flightenv_dev: false
 ## Only recommended for gateway nodes!
 flightenv_bootstrap: false 
 
+## If true will launch an xterm VNC server on 5901 and a gnome server on 5902
+## Only recommended for gateway nodes!
+flightenv_bootcamp_vnc: false
+
+
 # SLURM Settings
 slurm_role: exec # Default to SLURM compute node, override in subgroups
 munge_key: ReplaceThisWithMungeKeyRandomisedStringOrSomethingElseReallySecure
