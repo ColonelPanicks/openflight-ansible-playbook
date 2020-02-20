@@ -1,11 +1,15 @@
 - name: Launch xterm desktop
-  command: "su - flight /opt/flight/bin/flight desktop start xterm"
+  command: "/opt/flight/bin/flight desktop start xterm"
+  become: true
+  become_user: flight
   when:
     - flightenv_bootcamp_vnc
     - "'gateway' in group_names"
 
 - name: Launch gnome desktop
   command: "su - flight /opt/flight/bin/flight desktop start gnome"
+  become: true
+  become_user: flight
   when:
     - flightenv_bootcamp_vnc
     - "'gateway' in group_names"
