@@ -6,7 +6,7 @@
   file:
     path: "{{ item.key }}"
     state: directory
-    mode: 775
+    mode: 0775
   with_dict: "{{ nfs_shares }}"
 
 - name: Increase NFS thread count
@@ -40,7 +40,7 @@
   file:
     path: "{{ item.value.mountpoint }}"
     state: directory
-    mode: 775
+    mode: 0775
   with_dict: "{{ nfs_shares }}"
 
 - name: Start NFS service
