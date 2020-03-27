@@ -20,14 +20,6 @@
 - name: Set hostname
   command: "hostnamectl set-hostname {{ inventory_hostname_short }}.pri.{{ cluster_name }}.cluster.local"
 
-- name: Ensure search domain exists in resolv.conf
-  lineinfile:
-    path: /etc/resolv.conf
-    regexp: "^search (.*?)( pri.{{ cluster_name }}.cluster.local|$)"
-    line: 'search \1 pri.{{ cluster_name }}.cluster.local'
-    backrefs: true
-    state: present
-
 - name: Install EPEL Repo
   yum: name=epel-release state=present
 
