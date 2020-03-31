@@ -9,9 +9,6 @@
 - name: Gather Installed Services
   service_facts:
 
-- name: Set hostname
-  command: "hostnamectl set-hostname {{ inventory_hostname_short }}.pri.{{ cluster_name }}.cluster.local"
-
 - name: Install EPEL Repo
   yum: name=epel-release state=present
 
