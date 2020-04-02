@@ -1,16 +1,17 @@
 - name: Install packages
   yum:
     name:
+      "{{ all_packages }}"
+    state: present
+    disable_gpg_check: yes
+  vars:
+    generic_list:
       - flight-runway
       - flight-starter
       - flight-env
       - flight-desktop
-      - vte
       - vte-profile
-      - pdsh
-      - pdsh-mod-genders
-    state: present
-    disable_gpg_check: yes
+    all_packages: "{{ generic_list + ['vte', 'pdsh', 'pdsh-mod-genders'] if ansible_distribution_major_version == '7' else generic_list }}"
 
 - name: Set cluster name
   command: "/opt/flight/bin/flight config set cluster.name {{ cluster_name }}"
