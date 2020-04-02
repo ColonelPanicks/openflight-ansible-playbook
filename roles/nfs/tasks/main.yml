@@ -12,9 +12,9 @@
 - name: Increase NFS thread count
   when: nfs_role == "server"
   replace:
-    path: /etc/sysconfig/nfs
-    regexp: '^#\RPCNFSDCOUNT.*$'
-    replace: 'RPCNFSDCOUNT=32'
+    path: /etc/nfs.conf
+    regexp: '^# threads=8.*$'
+    replace: 'thread=32'
 
 - name: Create export file
   when: nfs_role == "server"
