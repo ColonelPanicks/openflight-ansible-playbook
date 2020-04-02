@@ -23,14 +23,16 @@
 - name: Install SLURM controller packages
   yum:
     name: 
-      - mariadb
-      - mariadb-test
-      - mariadb-libs
-      - mariadb-embedded
-      - mariadb-bench
-      - flight-slurm-slurmctld
+      "{{ all_packages }}"
     state: present
     disable_gpg_check: yes
+  vars:
+    generic_list:
+      - mariadb
+      - mariadb-test
+      - mariadb-embedded
+      - flight-slurm-slurmctld
+    all_packages: "{{ generic_list + ['mariadb-libs', 'mariadb-bench'] if ansible_distribution_major_version == '7' else generic_list }}"
   when: slurm_role == 'controller'
 
 - name: Turn on MariaDB
