@@ -12,9 +12,9 @@
 - name: Increase NFS thread count
   when: nfs_role == "server"
   replace:
-    path: /etc/sysconfig/nfs
-    regexp: '^#\RPCNFSDCOUNT.*$'
-    replace: 'RPCNFSDCOUNT=32'
+    path: /etc/nfs.conf
+    regexp: '^# threads=8.*$'
+    replace: 'thread=32'
 
 - name: Create export file
   when: nfs_role == "server"
@@ -43,8 +43,13 @@
     mode: 0775
   with_dict: "{{ nfs_shares }}"
 
+- name: Start NFS server service
+  service: "name=nfs-server state=started enabled=yes"
+  when: nfs_role == 'server' and ansible_distribution_major_version == '8'
+
 - name: Start NFS service
-  service: name=nfs state=started enabled=yes
+  service: "name=nfs state=started enabled=yes"
+  when: ansible_distribution_major_version == '7'
 
 - name: Export mounts
   when: nfs_role == 'server'
