@@ -30,3 +30,4 @@
   when:
     - flightenv_bootstrap
     - "'gateway' in group_names"
+    - ansible_distribution == "CentOS" and ansible_distribution_major_version == '7'
