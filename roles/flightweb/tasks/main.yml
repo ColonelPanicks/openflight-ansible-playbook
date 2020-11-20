@@ -1,0 +1,56 @@
+- name: Install web suite
+  yum: name=flight-web-suite state=present
+  when: slurm_role == 'controller'
+
+- name: Install optional desktop packages
+  yum:
+    name:
+      - netpbm-progs
+      - python-websockify
+      - xorg-x11-apps
+    state: present
+  when: slurm_role == 'controller'
+
+- name: Identify cluster domain name
+  command: "hostname -d"
+  register: gateway_domain
+  when: slurm_role == 'controller'
+
+- name: Generate self-signed SSL certs
+  command: "/opt/flight/bin/flight www cert-gen --cert-type self-signed --domain {{ gateway_domain.stdout }}"
+  when: slurm_role == 'controller'
+
+- name: Enable HTTPS
+  command: "/opt/flight/bin/flight www enable-https"
+  ignore_errors: yes
+  when: slurm_role == 'controller'
+
+- name: Identify public IP of gateway
+  command: "curl https://ifconfig.me"
+  register: gateway_node_pub_ip
+  when: slurm_role == 'controller'
+
+- name: Configure console webapp (json)
+  template:
+    src: console-webapp-config.json
+    dest: /opt/flight/opt/console-webapp/build/config.json
+  when: slurm_role == 'controller'
+
+- name: Configure console webapp (yml)
+  template:
+    src: console-webapp.yml
+    dest: /opt/flight/var/lib/service/console-webapp.yml
+  when: slurm_role == 'controller'
+
+- name: Configure desktop webapp (json)
+  template:
+    src: desktop-webapp-config.json
+    dest: /opt/flight/opt/desktop-webapp/build/config.json
+  when: slurm_role == 'controller'
+
+- name: Configure desktop webapp (yml)
+  template:
+    src: desktop-webapp.yml
+    dest: /opt/flight/var/lib/service/desktop-webapp.yml
+  when: slurm_role == 'controller'
+
