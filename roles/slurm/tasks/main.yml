@@ -32,11 +32,28 @@
       - mariadb-test
       - mariadb-embedded
       - flight-slurm-slurmctld
+      - flight-slurm-slurmdbd
     all_packages: "{{ generic_list + ['mariadb-libs', 'mariadb-bench'] if ansible_distribution_major_version == '7' else generic_list }}"
   when: slurm_role == 'controller'
 
 - name: Turn on MariaDB
   service: name=mariadb state=started enabled=yes
+  when: slurm_role == 'controller'
+
+- name: Prepare Accounting DB
+  command: "{{ item }}"
+  with_items:
+    - mysql -uroot -e "create user 'slurm'@'localhost' identified by '';"
+    - mysql -uroot -e "grant all on slurm_acct_db.* TO 'slurm'@'localhost';"
+    - mysql -uroot -e "CREATE DATABASE slurm_acct_db;"
+  when: slurm_role == 'controller'
+
+- name: Install slurmdbd.conf
+  template: src=slurmdbd.conf dest=/opt/flight/opt/slurm/etc/slurmdbd.conf
+  when: slurm_role == 'controller'
+
+- name: Turn on SlurmDBD
+  service: name=flight-slurmdbd state=started enabled=yes
   when: slurm_role == 'controller'
 
 - name: Create spool directory [ctld]
