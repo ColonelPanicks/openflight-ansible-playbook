@@ -1,8 +1,0 @@
-{
-  "clusterName": "{{ cluster_name }}",
-  "clusterDescription": "An OpenFlight Cluster",
-  "clusterLogo": "",
-  "apiRootUrl": "https://{{ gateway_node_pub_ip.stdout }}/desktop/api",
-  "websocketPathPrefix": "/ws",
-  "websocketPathIp": "127.0.0.1"
-}

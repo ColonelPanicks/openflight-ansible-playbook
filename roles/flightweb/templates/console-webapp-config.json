@@ -1,6 +1,0 @@
-{
-  "clusterName": "{{ cluster_name }}",
-  "clusterDescription": "An OpenFlight Cluster",
-  "clusterLogo": "",
-  "apiRootUrl": "https://{{ gateway_node_pub_ip.stdout }}/console/api"
-}

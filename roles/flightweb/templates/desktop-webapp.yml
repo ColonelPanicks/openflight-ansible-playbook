@@ -1,5 +1,0 @@
----
-clusterName: {{ cluster_name }}
-clusterDescription: 'An OpenFlight Cluster'
-clusterLogo: ''
-hostname: {{ gateway_node_pub_ip.stdout }}
