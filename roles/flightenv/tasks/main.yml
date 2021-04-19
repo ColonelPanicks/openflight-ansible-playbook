@@ -7,6 +7,7 @@
   vars:
     generic_list:
       - flight-user-suite
+      - flight-plugin-system-systemd-service
       - vte-profile
     all_packages: "{{ generic_list + ['vte', 'pdsh', 'pdsh-mod-genders'] if ansible_distribution_major_version == '7' else generic_list }}"
 
