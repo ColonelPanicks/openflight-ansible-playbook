@@ -4,6 +4,7 @@
   remote_user: root
   gather_facts: False
   roles:
+    - meta
     - upstream
     - slurm
     - nfs
