@@ -29,7 +29,8 @@
   command: "curl https://ifconfig.me"
   register: gateway_node_pub_ip
   when: slurm_role == 'controller'
-  warn: false
+  args:
+    warn: false
 
 - name: Put web suite files in place
   template:
