@@ -23,6 +23,7 @@
 - name: Locate flight-env directory
   shell: "rpm -ql flight-env |grep 'bin/flenv' |sed 's,/bin/flenv,,g'"
   register: env_dir
+  warn: false
 
 - name: Configure global software environment location
   template: src=config.yml dest={{ env_dir['stdout'] }}/etc/config.yml
