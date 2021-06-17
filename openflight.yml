@@ -5,9 +5,9 @@
   gather_facts: False
   roles:
     - meta
-    - upstream
+    - {{ role: upstream, when: "quick == false" }}
     - slurm
-    - nfs
+    - {{ role: nfs, when: "quick == false" }}
     - flightenv
-    - flightenv-bootstrap
+    - {{ role: flightenv-bootstrap, when: "quick == false" }}
     - flightweb

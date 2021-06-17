@@ -1,3 +1,7 @@
+# Ansible Flags
+quick: false # If true, will only run SLURM, Env & Web setup (to be used with preconfigured images)
+rerun: false # If true, will restart services instead of start and handle some other issues with rerunning playbook
+
 # Global
 cluster_name: mycluster # Used by SLURM and Flight Env
 gateway_node: chead1 #Used by SLURM and Flight Env (genders)

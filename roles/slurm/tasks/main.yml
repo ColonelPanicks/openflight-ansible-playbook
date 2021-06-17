@@ -37,7 +37,7 @@
   when: slurm_role == 'controller'
 
 - name: Turn on MariaDB
-  service: name=mariadb state=started enabled=yes
+  service: name=mariadb state=restarted enabled=yes
   when: slurm_role == 'controller'
 
 - name: Prepare Accounting DB
@@ -46,14 +46,14 @@
     - mysql -uroot -e "create user 'slurm'@'localhost' identified by '';"
     - mysql -uroot -e "grant all on slurm_acct_db.* TO 'slurm'@'localhost';"
     - mysql -uroot -e "CREATE DATABASE slurm_acct_db;"
-  when: slurm_role == 'controller'
+  when: slurm_role == 'controller' and rerun == 'false'
 
 - name: Install slurmdbd.conf
   template: src=slurmdbd.conf dest=/opt/flight/opt/slurm/etc/slurmdbd.conf
   when: slurm_role == 'controller'
 
 - name: Turn on SlurmDBD
-  service: name=flight-slurmdbd state=started enabled=yes
+  service: name=flight-slurmdbd state=restarted enabled=yes
   when: slurm_role == 'controller'
 
 - name: Create spool directory [ctld]
@@ -80,7 +80,7 @@
     mode: 0400
 
 - name: Turn on munge
-  service: name=munge state=started enabled=yes
+  service: name=munge state=restarted enabled=yes
 
 - name: Create SLURM log dirs
   file:
@@ -98,9 +98,9 @@
   template: src=slurm.conf dest=/opt/flight/opt/slurm/etc/slurm.conf
 
 - name: Turn on SLURM exec daemon
-  service: name=flight-slurmd state=started enabled=yes
+  service: name=flight-slurmd state=restarted enabled=yes
   when: slurm_role == 'exec'
 
 - name: Turn on SLURM controller daemon
-  service: name=flight-slurmctld state=started enabled=yes
+  service: name=flight-slurmctld state=restarted enabled=yes
   when: slurm_role == 'controller'

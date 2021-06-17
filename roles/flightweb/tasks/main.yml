@@ -55,7 +55,7 @@
   when: slurm_role == 'controller'
 
 - name: Start services
-  command: "/opt/flight/bin/flight service start {{ item }}"
+  command: "/opt/flight/bin/flight service restart {{ item }}"
   loop:
     - login-api
     - console-api
