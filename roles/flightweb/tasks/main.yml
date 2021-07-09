@@ -11,6 +11,9 @@
   command: "/opt/flight/bin/flight config set web-suite.domain {{ gateway_domain.stdout }}"
   when: slurm_role == 'controller'
 
+- name: Install web suite
+  yum: name=flight-web-suite state=present
+
 - name: Configure landing page
   template:
     src: "{{ item.src }}"
