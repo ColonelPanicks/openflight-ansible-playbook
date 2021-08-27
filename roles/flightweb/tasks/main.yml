@@ -13,6 +13,7 @@
 
 - name: Install web suite
   yum: name=flight-web-suite state=present
+  when: slurm_role == 'controller'
 
 - name: Configure landing page
   template:
