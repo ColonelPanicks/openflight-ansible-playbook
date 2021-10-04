@@ -52,10 +52,6 @@
   template: src=slurmdbd.conf dest=/opt/flight/opt/slurm/etc/slurmdbd.conf
   when: slurm_role == 'controller'
 
-- name: Turn on SlurmDBD
-  service: name=flight-slurmdbd state=started enabled=yes
-  when: slurm_role == 'controller'
-
 - name: Create spool directory [ctld]
   file:
     path: /opt/flight/opt/slurm/var/spool/slurm.state
@@ -100,6 +96,10 @@
 - name: Turn on SLURM exec daemon
   service: name=flight-slurmd state=started enabled=yes
   when: slurm_role == 'exec'
+
+- name: Turn on SlurmDBD
+  service: name=flight-slurmdbd state=started enabled=yes
+  when: slurm_role == 'controller'
 
 - name: Turn on SLURM controller daemon
   service: name=flight-slurmctld state=started enabled=yes
