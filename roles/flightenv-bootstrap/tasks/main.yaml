@@ -4,13 +4,13 @@
   poll: 15
   when:
     - flightenv_bootstrap
-    - "'gateway' in group_names"
+    - "'head' in group_names"
 
 - name: Prepare xterm desktop
   command: "/opt/flight/bin/flight desktop prepare xterm"
   when:
     - flightenv_bootstrap
-    - "'gateway' in group_names"
+    - "'head' in group_names"
 
 - name: Add gridware binary support
   file:
@@ -19,7 +19,7 @@
     mode: 1023
   when:
     - flightenv_bootstrap
-    - "'gateway' in group_names"
+    - "'head' in group_names"
     - ansible_architecture == 'x86_64'
 
 - name: Prewarm software environments
@@ -29,5 +29,5 @@
     remote_src: yes
   when:
     - flightenv_bootstrap
-    - "'gateway' in group_names"
+    - "'head' in group_names"
     - ansible_distribution == "CentOS" and ansible_distribution_major_version == '7'

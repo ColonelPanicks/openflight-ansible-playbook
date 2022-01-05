@@ -4,11 +4,11 @@
 
 - name: Identify cluster domain name
   command: "hostname -d"
-  register: gateway_domain
+  register: head_domain
   when: slurm_role == 'controller'
 
 - name: Configure web suite domain
-  command: "/opt/flight/bin/flight web-suite set-domain {{ gateway_domain.stdout }}"
+  command: "/opt/flight/bin/flight web-suite set-domain {{ head_domain.stdout }}"
   when: slurm_role == 'controller'
 
 - name: Configure landing page

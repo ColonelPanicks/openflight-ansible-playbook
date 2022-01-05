@@ -1,7 +1,7 @@
 # Global
 cluster_name: mycluster # Used by SLURM and Flight Env
-gateway_node: chead1 #Used by SLURM and Flight Env (genders)
-compute_nodes: cnode[01-08]
+head_node: "{{ groups.head | first }}"
+compute_nodes: "{{ groups.nodes | join(',') }}"
 
 # FlightEnv Settings
 
@@ -10,7 +10,7 @@ compute_nodes: cnode[01-08]
 flightenv_dev: false
 
 ## If true will additionally install dependencies for desktop environments.
-## Only recommended for gateway nodes!
+## Only recommended for head nodes!
 flightenv_bootstrap: false 
 
 # SLURM Settings
@@ -21,27 +21,27 @@ munge_key: ReplaceThisWithMungeKeyRandomisedStringOrSomethingElseReallySecure
 nfs_role: client # Default to NFS client, override in subgroups
 nfs_shares:
   /export/apps:
-    server: chead1
+    server: "{{ head_node }}"
     mountpoint: /opt/apps
     export_opts: 10.10.0.0/255.255.0.0(rw,no_root_squash,sync)
     mount_opts: intr,rsize=32768,wsize=32768,vers=3,_netdev,nofail
   /export/data:
-    server: chead1
+    server: "{{ head_node }}"
     mountpoint: /data
     export_opts: 10.10.0.0/255.255.0.0(rw,no_root_squash,sync)
     mount_opts: intr,rsize=32768,wsize=32768,vers=3,_netdev,nofail
   /export/service:
-    server: chead1
+    server: "{{ head_node }}"
     mountpoint: /opt/service
     export_opts: 10.10.0.0/255.255.0.0(rw,no_root_squash,sync)
     mount_opts: intr,rsize=32768,wsize=32768,vers=3,_netdev,nofail
   /export/site:
-    server: chead1
+    server: "{{ head_node }}"
     mountpoint: /opt/site
     export_opts: 10.10.0.0/255.255.0.0(rw,no_root_squash,sync)
     mount_opts: intr,rsize=32768,wsize=32768,vers=3,_netdev,nofail
   /home:
-    server: chead1
+    server: "{{ head_node }}"
     mountpoint: /home
     export_opts: 10.10.0.0/255.255.0.0(rw,no_root_squash,sync)
     mount_opts: intr,rsize=32768,wsize=32768,vers=3,_netdev,nofail
