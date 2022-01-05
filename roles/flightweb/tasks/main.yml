@@ -1,15 +1,15 @@
 - name: Install web suite
   yum: name=flight-web-suite state=present
-  when: slurm_role == 'controller'
+  when: "'head' in group_names"
 
 - name: Identify cluster domain name
   command: "hostname -d"
   register: head_domain
-  when: slurm_role == 'controller'
+  when: "'head' in group_names"
 
 - name: Configure web suite domain
   command: "/opt/flight/bin/flight web-suite set-domain {{ head_domain.stdout }}"
-  when: slurm_role == 'controller'
+  when: "'head' in group_names"
 
 - name: Configure landing page
   template:
@@ -17,13 +17,13 @@
     dest: "{{ item.dest }}"
   loop:
     - { src: 'environment.yaml', dest: '/opt/flight/opt/www/landing-page/default/content/data/environment.yaml' }
-  when: slurm_role == 'controller'
+  when: "'head' in group_names"
 
 - name: Start web suite
   command: "/opt/flight/bin/flight web-suite start"
-  when: slurm_role == 'controller'
+  when: "'head' in group_names"
 
 - name: Enable web suite
   command: "/opt/flight/bin/flight web-suite enable"
-  when: slurm_role == 'controller'
+  when: "'head' in group_names"
 
