@@ -1,5 +1,5 @@
 # Global
-cluster_name: mycluster # Used by SLURM and Flight Env
+cluster_name: mycluster
 head_node: "{{ groups.head | first }}"
 compute_nodes: "{{ groups.nodes | join(',') }}"
 
@@ -12,9 +12,6 @@ flightenv_dev: false
 ## If true will additionally install dependencies for desktop environments.
 ## Only recommended for head nodes!
 flightenv_bootstrap: false 
-
-# SLURM Settings
-munge_key: ReplaceThisWithMungeKeyRandomisedStringOrSomethingElseReallySecure
 
 # NFS Settings
 nfs_role: client # Default to NFS client, override in subgroups

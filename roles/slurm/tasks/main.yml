@@ -68,6 +68,10 @@
     group: nobody
   when: "'nodes' in group_names"
 
+- name: Generate munge key
+  shell: "base64 /dev/urandom |tr -dc 'a-zA-Z0-9' |head -c 32"
+  register: munge_key
+
 - name: Add munge key
   copy:
     content: "{{ munge_key }}"
