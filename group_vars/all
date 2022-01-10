@@ -1,5 +1,8 @@
 # Global
 cluster_name: mycluster
+storage_path: /export
+compute_ip_range: "10.110.0.0/255.255.0.0"
+
 head_node: "{{ groups.head | first }}"
 compute_nodes: "{{ groups.nodes | join(',') }}"
 
@@ -16,28 +19,33 @@ flightenv_bootstrap: false
 # NFS Settings
 nfs_role: client # Default to NFS client, override in subgroups
 nfs_shares:
-  /export/apps:
+  apps:
     server: "{{ head_node }}"
+    export: "{{ storage_path + '/apps' }}"
     mountpoint: /opt/apps
-    export_opts: 10.10.0.0/255.255.0.0(rw,no_root_squash,sync)
+    export_opts: "{{ compute_ip_range }}(rw,no_root_squash,sync)"
     mount_opts: intr,rsize=32768,wsize=32768,vers=3,_netdev,nofail
-  /export/data:
+  data:
     server: "{{ head_node }}"
-    mountpoint: /data
-    export_opts: 10.10.0.0/255.255.0.0(rw,no_root_squash,sync)
+    export: "{{ storage_path + '/data' }}"
+    mountpoint: /opt/data
+    export_opts: "{{ compute_ip_range }}(rw,no_root_squash,sync)"
     mount_opts: intr,rsize=32768,wsize=32768,vers=3,_netdev,nofail
-  /export/service:
+  service:
     server: "{{ head_node }}"
+    export: "{{ storage_path + '/service' }}"
     mountpoint: /opt/service
-    export_opts: 10.10.0.0/255.255.0.0(rw,no_root_squash,sync)
+    export_opts: "{{ compute_ip_range }}(rw,no_root_squash,sync)"
     mount_opts: intr,rsize=32768,wsize=32768,vers=3,_netdev,nofail
-  /export/site:
+  site:
     server: "{{ head_node }}"
+    export: "{{ storage_path + '/site' }}"
     mountpoint: /opt/site
-    export_opts: 10.10.0.0/255.255.0.0(rw,no_root_squash,sync)
+    export_opts: "{{ compute_ip_range }}(rw,no_root_squash,sync)"
     mount_opts: intr,rsize=32768,wsize=32768,vers=3,_netdev,nofail
-  /home:
+  home:
     server: "{{ head_node }}"
+    export: /home
     mountpoint: /home
-    export_opts: 10.10.0.0/255.255.0.0(rw,no_root_squash,sync)
+    export_opts: "{{ compute_ip_range }}(rw,no_root_squash,sync)"
     mount_opts: intr,rsize=32768,wsize=32768,vers=3,_netdev,nofail
