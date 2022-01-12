@@ -6,6 +6,7 @@
   roles:
     - meta
     - upstream
+    - ssh
     - slurm
     - nfs
     - flightenv
