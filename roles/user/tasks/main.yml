@@ -9,9 +9,11 @@
     user: "{{ shared_username }}"
     key: "{{ shared_ssh_key }}"
   run_once: true
+  when: "'head' in group_names"
 
 - name: Enable Flight for User
   shell: "/opt/flight/bin/flight set always on"
   become: true
   become_user: "{{ shared_username }}"
   run_once: true
+  when: "'head' in group_names"
