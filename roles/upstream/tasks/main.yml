@@ -1,10 +1,12 @@
 - name: Install EPEL Repo
-  yum: name=epel-release state=present
+  yum: name=https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm state=present
 
 - name: Add OpenFlight Release Repo
-  yum: 
-    name: "https://repo.openflighthpc.org/openflight/{{ ansible_distribution |lower }}/{{ ansible_distribution_major_version }}/{{ ansible_architecture }}/openflighthpc-release-3-1.noarch.rpm"
-    state: present
+  yum: name=https://repo.openflighthpc.org/openflight/centos/7/x86_64/openflighthpc-release-3-1.noarch.rpm state=present
+
+- name: Correct Repository File
+  shell: sed -i 's/$releasever/7/g;s/$basearch/x86_64/g' /etc/yum.repos.d/openflight.repo
+  when: ansible_distribution == "RedHat" and ansible_distribution_major_version == '7'
 
 - name: Enabling OpenFlight Development Repo
   ini_file:
@@ -21,3 +23,11 @@
     option: enabled
     value: 1
   when: ansible_distribution == "CentOS" and ansible_distribution_major_version == '8'
+
+- name: Enable RHEL optional RPMs
+  ini_file:
+    dest: /etc/yum.repos.d/redhat.repo
+    section: rhel-7-server-optional-rpms
+    option: enabled
+    value: 1
+  when: ansible_distribution == "RedHat" and ansible_distribution_major_version == '7'
