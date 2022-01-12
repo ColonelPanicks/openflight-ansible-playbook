@@ -1,0 +1,17 @@
+- name: Add Shared User
+  user:
+    name: "{{ shared_username }}"
+    uid: "{{ shared_uid }}"
+    create_home: "{{ 'yes' if 'head' in group_names else 'no' }}"
+
+- name: Add SSH Key for User
+  authorized_key: 
+    user: "{{ shared_username }}"
+    key: "{{ shared_ssh_key }}"
+  run_once: true
+
+- name: Enable Flight for User
+  shell: "/opt/flight/bin/flight set always on"
+  become: true
+  become_user: "{{ shared_username }}"
+  run_once: true

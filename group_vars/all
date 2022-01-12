@@ -3,6 +3,12 @@ cluster_name: mycluster
 storage_path: /export
 compute_ip_range: "10.110.0.0/255.255.0.0"
 
+# Shared User
+shared_username: testuser
+shared_uid: 10123
+shared_ssh_key: 'ssh-rsa YourPubKeyHere'
+
+
 head_node: "{{ groups.head | first }}"
 compute_nodes: "{{ groups.nodes | join(',') }}"
 
