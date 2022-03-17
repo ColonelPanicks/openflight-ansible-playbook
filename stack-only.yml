@@ -1,0 +1,12 @@
+---
+- name: Configure OpenFlight Stack
+  hosts: all
+  remote_user: root
+  gather_facts: False
+  roles:
+    - meta
+    - upstream
+    - ssh
+    - slurm
+    - flightenv
+    - flightweb
