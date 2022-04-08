@@ -26,6 +26,9 @@ flightenv_bootstrap: false
 ## this should be a world accessible hostname
 flightweb_fqdn: ""
 
+## If true this will install Alces branding
+alces: false
+
 # NFS Settings
 nfs_role: client # Default to NFS client, override in subgroups
 nfs_shares:

@@ -1,0 +1,17 @@
+- name: Install Alces Repo
+  yum: name=https://alces-flight.s3-eu-west-1.amazonaws.com/repos/pub/centos/7/alces-flight-release-latest.noarch.rpm state=present
+  when:
+    - "'head' in group_names"
+    - "alces"
+
+- name: Swap Banner Packages
+  command: "yum swap -y flight-starter-banner flight-direct-flight-starter-banner"
+  when:
+    - "'head' in group_names"
+    - "alces"
+
+- name: Install Alces Landing Page
+  yum: name=alces-flight-landing-page-branding.x86_64 state=present
+  when:
+    - "'head' in group_names"
+    - "alces"
