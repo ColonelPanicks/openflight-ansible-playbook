@@ -16,6 +16,11 @@
     value: 1
   when: flightenv_dev
 
+- name: Install Alces Repo
+  yum: name=https://alces-flight.s3-eu-west-1.amazonaws.com/repos/pub/centos/7/alces-flight-release-latest.noarch.rpm state=present
+  when:
+    - "alces"
+
 - name: Enable PowerTools repository
   ini_file:
     dest: /etc/yum.repos.d/CentOS-Linux-PowerTools.repo

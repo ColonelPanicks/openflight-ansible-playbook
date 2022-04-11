@@ -48,3 +48,9 @@
   when:
     - "'head' in group_names"
     - "flightweb_fqdn |length > 0"
+
+- name: Install Alces Landing Page
+  yum: name=alces-flight-landing-page-branding.x86_64 state=present
+  when:
+    - "'head' in group_names"
+    - "alces"
