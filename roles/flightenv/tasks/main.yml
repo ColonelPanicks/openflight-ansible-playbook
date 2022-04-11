@@ -27,6 +27,14 @@
   when:
     - "alces"
 
+- name: Set Alces Desktop Background
+  lineinfile:
+    path: /opt/flight/opt/desktop/etc/config.yml
+    line: "bg_image: /opt/flight/etc/assets/backgrounds/alces-flight.jpg"
+    create: yes
+  when:
+    - "alces"
+
 - name: Set cluster name
   command: "/opt/flight/bin/flight config set cluster.name {{ cluster_name }}"
 
