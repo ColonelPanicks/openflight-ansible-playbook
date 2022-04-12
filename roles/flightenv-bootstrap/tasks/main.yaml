@@ -4,13 +4,11 @@
   poll: 15
   when:
     - flightenv_bootstrap
-    - "'head' in group_names"
 
 - name: Prepare xterm desktop
   command: "/opt/flight/bin/flight desktop prepare xterm"
   when:
     - flightenv_bootstrap
-    - "'head' in group_names"
 
 - name: Add gridware binary support
   file:
