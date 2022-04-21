@@ -22,6 +22,13 @@ flightenv_dev: false
 ## Only recommended for head nodes!
 flightenv_bootstrap: false 
 
+## If set then a letsencrypt cert will be generated for the FQDN,
+## this should be a world accessible hostname
+flightweb_fqdn: ""
+
+## If true this will install Alces branding
+alces: false
+
 # NFS Settings
 nfs_role: client # Default to NFS client, override in subgroups
 nfs_shares:

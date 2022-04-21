@@ -14,6 +14,27 @@
 - name: Enable flight-service systemd integration
   service: "name=flight-service state=started enabled=yes"
 
+- name: Backup Old Banner Packages
+  command: "mv /opt/flight/etc/{{ item }} /opt/flight/etc/{{ item }}.openflight"
+  with_items:
+    - flight-starter.rc
+    - flight-starter.cshrc
+  when:
+    - "alces"
+
+- name: Swap Banner Packages
+  command: "yum swap -y flight-starter-banner flight-direct-flight-starter-banner"
+  when:
+    - "alces"
+
+- name: Set Alces Desktop Background
+  lineinfile:
+    path: /opt/flight/opt/desktop/etc/config.yml
+    line: "bg_image: /opt/flight/etc/assets/backgrounds/alces-flight.jpg"
+    create: yes
+  when:
+    - "alces"
+
 - name: Set cluster name
   command: "/opt/flight/bin/flight config set cluster.name {{ cluster_name }}"
 
