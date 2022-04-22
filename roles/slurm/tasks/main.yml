@@ -95,6 +95,18 @@
     state: directory
     owner: nobody
 
+- name: Gather resource limits for compute nodes
+  shell: "/opt/flight/opt/slurm/sbin/slurmd -C |head -1"
+  args:
+    warn: no
+  register: result
+  when: "'nodes' in group_names"
+
+- name: Combine vars
+  set_fact:
+    nodeinfo: "{{ groups.nodes | map('extract', hostvars, 'result') | map(attribute='stdout') |list }}"
+  run_once: yes
+
 - name: Install slurm.conf
   template: src=slurm.conf dest=/opt/flight/opt/slurm/etc/slurm.conf
 
