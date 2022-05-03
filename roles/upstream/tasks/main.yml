@@ -1,5 +1,9 @@
 - name: Install EPEL Repo
   yum: name=https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm state=present
+  register: epel_res
+  retries: 3
+  delay: 5
+  until: epel_res is success
 
 - name: Add OpenFlight Release Repo
   yum: name=https://repo.openflighthpc.org/openflight/centos/7/x86_64/openflighthpc-release-3-1.noarch.rpm state=present
