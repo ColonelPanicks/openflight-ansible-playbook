@@ -25,6 +25,16 @@
   when:
     - "alces"
 
+- name: Enabling Alces Development Repo
+  ini_file:
+    dest: /etc/yum.repos.d/alces-flight.repo
+    section: alces-flight-dev
+    option: enabled
+    value: 1
+  when:
+    - "alces"
+    - "flightenv_dev"
+
 - name: Enable PowerTools repository
   ini_file:
     dest: /etc/yum.repos.d/CentOS-Linux-PowerTools.repo
