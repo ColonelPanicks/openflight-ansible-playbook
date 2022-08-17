@@ -2,7 +2,6 @@
   yum: name=nfs-utils state=present
 
 - name: Create export directories
-  when: "'head' in group_names"
   file:
     path: "{{ item.value.export }}"
     state: directory
@@ -10,24 +9,14 @@
   with_dict: "{{ nfs_shares }}"
 
 - name: Create export file
-  when: "'head' in group_names"
   template: src=exports dest=/etc/exports
 
-- name: Create fstab file (client)
-  lineinfile:
-    path: /etc/fstab
-    line: "{{ item.value.server }}:{{ item.value.export }}    {{ item.value.mountpoint }}    nfs    {{ item.value.mount_opts }}    0 0"
-    state: present
-  with_dict: "{{ nfs_shares }}"
-  when: "'nodes' in group_names"
-
-- name: Create fstab file (server - bindmounts)
+- name: Create fstab file
   lineinfile:
     path: /etc/fstab
     line: "{% if item.value.export != item.value.mountpoint %}{{ item.value.export }}    {{ item.value.mountpoint }}    none    defaults,bind    0 0{% endif %}"
     state: present
   with_dict: "{{ nfs_shares }}"
-  when: "'head' in group_names"
 
 - name: Create mount directories
   file:
@@ -38,16 +27,13 @@
 
 - name: Start NFS server service
   service: "name=nfs-server state=started enabled=yes"
-  when:
-    - "'head' in group_names"
-    - ansible_distribution_major_version == '8'
+  when: ansible_distribution_major_version == '8'
 
 - name: Start NFS service
   service: "name=nfs state=started enabled=yes"
   when: ansible_distribution_major_version == '7'
 
 - name: Export mounts
-  when: "'head' in group_names"
   command: exportfs -va
 
 - name: Mount NFS exports

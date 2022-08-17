@@ -30,7 +30,7 @@ flightweb_fqdn: ""
 alces: false
 
 # NFS Settings
-nfs_role: client # Default to NFS client, override in subgroups
+nfs_server: true
 nfs_shares:
   apps:
     server: "{{ head_node }}"

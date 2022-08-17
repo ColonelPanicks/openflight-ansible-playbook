@@ -2,13 +2,9 @@
   command: "/opt/flight/bin/flight desktop prepare gnome"
   async: 600
   poll: 15
-  when:
-    - flightenv_bootstrap
 
 - name: Prepare xterm desktop
   command: "/opt/flight/bin/flight desktop prepare xterm"
-  when:
-    - flightenv_bootstrap
 
 - name: Add gridware binary support
   file:
@@ -16,7 +12,6 @@
     state: directory
     mode: 1023
   when:
-    - flightenv_bootstrap
     - "'head' in group_names"
     - ansible_architecture == 'x86_64'
 
@@ -26,6 +21,5 @@
     dest: /
     remote_src: yes
   when:
-    - flightenv_bootstrap
     - "'head' in group_names"
     - ansible_distribution == "CentOS" and ansible_distribution_major_version == '7'
