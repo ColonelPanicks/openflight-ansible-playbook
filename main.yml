@@ -1,0 +1,35 @@
+---
+- name: General System Configuration
+  hosts: all
+  remote_user: root
+  gather_facts: False
+  roles:
+    - meta
+    - upstream
+    - ssh
+    - slurm-generic
+    - flightenv
+    - role: flightenv-bootstrap
+      when: flightenv_bootstrap
+
+- name: Configure Login Nodes
+  hosts: head
+  remote_user: root
+  gather_facts: False
+  roles:
+    - slurm-server
+    - role: nfs-server
+      when: nfs_server 
+    - role: nfs-client
+      when: not nfs_server
+    - flightweb
+    - user
+
+- name: Configure Compute Nodes
+  hosts: nodes
+  remote_user: root
+  gather_facts: False
+  roles:
+    - slurm-client
+    - nfs-client
+    - user
