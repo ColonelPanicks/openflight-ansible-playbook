@@ -1,0 +1,25 @@
+- name: Install NFS utils
+  yum: name=nfs-utils state=present
+
+- name: Create fstab file
+  lineinfile:
+    path: /etc/fstab
+    line: "{{ item.value.server }}:{{ item.value.export }}    {{ item.value.mountpoint }}    nfs    {{ item.value.mount_opts }}    0 0"
+    state: present
+  with_dict: "{{ nfs_shares }}"
+
+- name: Create mount directories
+  file:
+    path: "{{ item.value.mountpoint }}"
+    state: directory
+    mode: 0775
+  with_dict: "{{ nfs_shares }}"
+
+- name: Start NFS service
+  service: "name=nfs state=started enabled=yes"
+  when: ansible_distribution_major_version == '7'
+
+- name: Mount NFS exports
+  command: mount -a
+  args:
+    warn: no
