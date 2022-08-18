@@ -64,6 +64,8 @@
   copy:
     src: "files/{{ cluster_name }}_genders"
     dest: /opt/flight/etc/genders
+  tags:
+    - update
 
 - name: Locate flight-env directory
   shell: "rpm -ql flight-env |grep 'bin/flenv' |sed 's,/bin/flenv,,g'"

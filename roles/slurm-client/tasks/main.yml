@@ -6,4 +6,6 @@
     group: nobody
 
 - name: Turn on SLURM exec daemon
-  service: name=flight-slurmd state=started enabled=yes
+  service: name=flight-slurmd state=restarted enabled=yes
+  tags:
+    - update
