@@ -20,14 +20,31 @@
     state: present
     disable_gpg_check: yes
 
+- name: Check for local munge key file
+  stat:
+    path: "files/{{ cluster_name }}_munge.key"
+  register: munge_key_exists
+  delegate_to: localhost
+  run_once: true
+
 - name: Generate munge key
   shell: "base64 /dev/urandom |tr -dc 'a-zA-Z0-9' |head -c 32"
   register: munge_key
   run_once: true
+  delegate_to: localhost
+  when: not munge_key_exists.stat.exists
+
+- name: Write local munge key file
+  copy:
+    content: "{{ munge_key.stdout }}"
+    dest: "files/{{ cluster_name }}_munge.key"
+  run_once: true
+  delegate_to: localhost
+  when: not munge_key_exists.stat.exists
 
 - name: Add munge key
   copy:
-    content: "{{ munge_key }}"
+    src: "files/{{ cluster_name }}_munge.key"
     dest: /etc/munge/munge.key
     owner: munge
     mode: 0400
