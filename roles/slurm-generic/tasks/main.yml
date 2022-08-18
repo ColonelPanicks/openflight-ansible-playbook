@@ -64,17 +64,40 @@
     state: directory
     owner: nobody
 
+- name: Check for local SLURM conf
+  stat:
+    path: "files/{{ cluster_name }}_slurm.conf"
+  register: slurm_conf_exists
+  delegate_to: localhost
+  run_once: true
+
 - name: Gather resource limits for compute nodes
   shell: "/opt/flight/opt/slurm/sbin/slurmd -C |head -1"
   args:
     warn: no
   register: result
-  when: "'nodes' in group_names"
+  when:
+    - "'nodes' in group_names"
+    - not slurm_conf_exists.stat.exists
 
 - name: Combine vars
   set_fact:
     nodeinfo: "{{ groups.nodes | map('extract', hostvars, 'result') | map(attribute='stdout') |list }}"
   run_once: yes
+  when:
+    - "'nodes' in groups" 
+    - not slurm_conf_exists.stat.exists
+
+- name: Generate SLURM conf
+  template:
+    src: slurm.conf
+    dest: "files/{{ cluster_name }}_slurm.conf"
+  run_once: true
+  delegate_to: localhost
+  when: not slurm_conf_exists.stat.exists
+
 
 - name: Install slurm.conf
-  template: src=slurm.conf dest=/opt/flight/opt/slurm/etc/slurm.conf
+  copy:
+    src: "files/{{ cluster_name }}_slurm.conf"
+    dest: /opt/flight/opt/slurm/etc/slurm.conf
