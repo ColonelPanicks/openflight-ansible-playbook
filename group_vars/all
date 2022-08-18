@@ -10,7 +10,6 @@ shared_ssh_key: 'ssh-rsa YourPubKeyHere'
 
 
 head_node: "{{ groups.head | first }}"
-compute_nodes: "{{ groups.nodes | join(',') }}"
 
 # FlightEnv Settings
 

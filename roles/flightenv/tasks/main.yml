@@ -38,8 +38,32 @@
 - name: Set cluster name
   command: "/opt/flight/bin/flight config set cluster.name {{ cluster_name }}"
 
-- name: Create genders file
-  template: src=genders dest=/opt/flight/etc/genders
+- name: Check for local genders file
+  stat:
+    path: "files/{{ cluster_name }}_genders"
+  register: genders_exists
+  delegate_to: localhost
+  run_once: true
+
+- name: Gather compute node names
+  set_fact:
+    compute_nodes: "{{ groups.nodes | join(',') }}"
+  when:
+    - "'nodes' in groups"
+    - not genders_exists.stat.exists
+
+- name: Generate genders file
+  template:
+    src: genders
+    dest: "files/{{ cluster_name }}_genders"
+  run_once: true
+  delegate_to: localhost
+  when: not genders_exists.stat.exists
+
+- name: Install genders
+  copy:
+    src: "files/{{ cluster_name }}_genders"
+    dest: /opt/flight/etc/genders
 
 - name: Locate flight-env directory
   shell: "rpm -ql flight-env |grep 'bin/flenv' |sed 's,/bin/flenv,,g'"
