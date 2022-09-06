@@ -4,33 +4,33 @@
 
 - Install Ansible
     ```shell
-	yum install -y ansible
-	```
+    yum install -y ansible
+    ```
 - Clone the playbook
     ```shell
-	git clone https://github.com/openflighthpc/openflight-ansible-playbook/
-	```
+    git clone https://github.com/openflighthpc/openflight-ansible-playbook/
+    ```
 - Navigate to ansible directory
     ```shell
-	cd openflight-ansible-playbook
-	```
+    cd openflight-ansible-playbook
+    ```
 - Create inventory file called something sensible (e.g. `mycluster.inv`) with the following content (ensure hostnames are correct to what you have created)
     ```shell
-	[head]
-	clogin1
+    [head]
+    clogin1
 
-	[nodes]
-	cnode01
+    [nodes]
+    cnode01
     cnode02
     cnode03
-	```
+    ```
 - Open `group_vars/all` for editing and...
-	- Set `cluster_name` to your chosen cluster name
-	- Set `compute_ip_range` to the IPv4 CIDR block chosen for the VPC
+    - Set `cluster_name` to your chosen cluster name
+    - Set `compute_ip_range` to the IPv4 CIDR block chosen for the VPC
 - Run the playbook
     ```shell
-	ansible-playbook -i mycluster.inv main.yml
-	```
+    ansible-playbook -i mycluster.inv main.yml
+    ```
 
 ### Excluding Particular Roles
 
