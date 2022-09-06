@@ -6,7 +6,10 @@
   until: epel_res is success
 
 - name: Add OpenFlight Release Repo
-  yum: name=https://repo.openflighthpc.org/openflight/centos/7/x86_64/openflighthpc-release-3-1.noarch.rpm state=present disable_gpg_check=yes
+  yum:
+    name: "https://repo.openflighthpc.org/openflight/centos/{{ ansible_distribution_major_version }}/{{ ansible_architecture }}/openflighthpc-release-3-1.noarch.rpm"
+    state: present
+    disable_gpg_check: yes
 
 - name: Correct Repository File
   shell: sed -i 's/$releasever/7/g;s/$basearch/x86_64/g' /etc/yum.repos.d/openflight.repo
@@ -21,7 +24,10 @@
   when: flightenv_dev
 
 - name: Install Alces Repo
-  yum: name=https://alces-flight.s3-eu-west-1.amazonaws.com/repos/pub/centos/7/alces-flight-release-latest.noarch.rpm state=present
+  yum:
+    name: "https://alces-flight.s3-eu-west-1.amazonaws.com/repos/pub/centos/{{ ansible_distribution_major_version }}/alces-flight-release-latest.noarch.rpm" 
+    state: present
+    disable_gpg_check: yes
   when:
     - "alces"
 
