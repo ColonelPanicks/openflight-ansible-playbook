@@ -49,7 +49,7 @@
   set_fact:
     compute_nodes: "{{ groups.nodes | join(',') }}"
   when:
-    - "'nodes' in groups"
+    - "'nodes' in group_names"
     - not genders_exists.stat.exists
 
 - name: Generate genders file
